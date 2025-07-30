@@ -8,15 +8,17 @@ void ofApp::setup() {
 	quad.addVertex(glm::vec3(1.0, 1.0, 0.0));
 	quad.addVertex(glm::vec3(1.0, -1.0, 0.0));
 
-	quad.addTexCoord(glm::vec2(0, 0));
+
 	quad.addTexCoord(glm::vec2(0, 1));
-	quad.addTexCoord(glm::vec2(1, 1));
+	quad.addTexCoord(glm::vec2(0, 0));
 	quad.addTexCoord(glm::vec2(1, 0));
+	quad.addTexCoord(glm::vec2(1, 1));
+
 
 	ofIndexType indices[6] = { 0,1,2,2,3,0 };
 	quad.addIndices(indices, 6);
 
-	bool loaded = shader.load("shader.vert_texture_fix_reverse", "shader.frag_texture_fix_reverse");
+	bool loaded = shader.load("shader.vert_texture", "shader.frag_texture");
 
 	ofDisableArbTex();
 	img.load("parrot.png");
