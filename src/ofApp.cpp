@@ -1,19 +1,27 @@
 #include "ofApp.h"
-ofMesh triangle;
-ofShader shader;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
 
-	triangle.addVertex(glm::vec3(-1.0, -1.0, 0.0));
-	triangle.addVertex(glm::vec3(-1.0, 1.0, 0.0));
-	triangle.addVertex(glm::vec3(1.0, 1.0, 0.0));
+	quad.addVertex(glm::vec3(-1.0, -1.0, 0.0));
+	quad.addVertex(glm::vec3(-1.0, 1.0, 0.0));
+	quad.addVertex(glm::vec3(1.0, 1.0, 0.0));
+	quad.addVertex(glm::vec3(1.0, -1.0, 0.0));
 
-	triangle.addColor(ofFloatColor(1.0f, 0.0f, 0.0f, 1.0f));
-	triangle.addColor(ofFloatColor(0.0f, 1.0f, 0.0f, 1.0f));
-	triangle.addColor(ofFloatColor(0.0f, 0.0f, 1.0f, 1.0f));
+	quad.addColor(ofDefaultColorType(1.0f, 0.0f, 0.0f, 1.0f));
+	quad.addColor(ofDefaultColorType(0.0f, 1.0f, 0.0f, 1.0f));
+	quad.addColor(ofDefaultColorType(0.0f, 0.0f, 1.0f, 1.0f));
+	quad.addColor(ofDefaultColorType(1.0, 1.0, 1.0, 1.0));
 
-	bool loaded = shader.load("shader.vert", "shader.frag");
+	quad.addTexCoord(glm::vec2(0, 0));
+	quad.addTexCoord(glm::vec2(0, 1));
+	quad.addTexCoord(glm::vec2(1, 1));
+	quad.addTexCoord(glm::vec2(1, 0));
+
+	ofIndexType indices[6] = { 0,1,2,2,3,0 };
+	quad.addIndices(indices, 6);
+
+	bool loaded = shader.load("shader.vert_uv", "shader.frag_uv");
 }
 
 //--------------------------------------------------------------
@@ -25,14 +33,14 @@ void ofApp::update() {
 void ofApp::draw() {
 	shader.begin();
 	shader.setUniform4f("outColor", glm::vec4(0, 1, 1, 1));
-	triangle.draw();
+	quad.draw();
 	shader.end();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-	glm::vec3 curPos = triangle.getVertex(2);
-	triangle.setVertex(2, curPos + glm::vec3(0, 20, 0));
+	glm::vec3 curPos = quad.getVertex(2);
+	quad.setVertex(2, curPos + glm::vec3(0, 20, 0));
 }
 
 //--------------------------------------------------------------
