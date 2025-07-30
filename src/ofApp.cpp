@@ -24,6 +24,7 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	shader.begin();
+	shader.setUniform4f("outColor", glm::vec4(0, 1, 1, 1));
 	triangle.draw();
 	shader.end();
 }
