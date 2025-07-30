@@ -8,11 +8,6 @@ void ofApp::setup() {
 	quad.addVertex(glm::vec3(1.0, 1.0, 0.0));
 	quad.addVertex(glm::vec3(1.0, -1.0, 0.0));
 
-	quad.addColor(ofDefaultColorType(1.0f, 0.0f, 0.0f, 1.0f));
-	quad.addColor(ofDefaultColorType(0.0f, 1.0f, 0.0f, 1.0f));
-	quad.addColor(ofDefaultColorType(0.0f, 0.0f, 1.0f, 1.0f));
-	quad.addColor(ofDefaultColorType(1.0, 1.0, 1.0, 1.0));
-
 	quad.addTexCoord(glm::vec2(0, 0));
 	quad.addTexCoord(glm::vec2(0, 1));
 	quad.addTexCoord(glm::vec2(1, 1));
@@ -21,7 +16,10 @@ void ofApp::setup() {
 	ofIndexType indices[6] = { 0,1,2,2,3,0 };
 	quad.addIndices(indices, 6);
 
-	bool loaded = shader.load("shader.vert_uv", "shader.frag_uv");
+	bool loaded = shader.load("shader.vert_texture", "shader.frag_texture");
+
+	ofDisableArbTex();
+	img.load("parrot.png");
 }
 
 //--------------------------------------------------------------
@@ -32,7 +30,7 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	shader.begin();
-	shader.setUniform4f("outColor", glm::vec4(0, 1, 1, 1));
+	shader.setUniformTexture("parrotTex", img, 0);
 	quad.draw();
 	shader.end();
 }

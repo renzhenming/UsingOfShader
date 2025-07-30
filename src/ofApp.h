@@ -7,6 +7,7 @@ class ofApp : public ofBaseApp{
 	public:
 		ofMesh quad;
 		ofShader shader;
+		ofImage img;
 		void setup();
 		void update();
 		void draw();
