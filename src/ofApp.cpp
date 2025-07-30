@@ -16,7 +16,7 @@ void ofApp::setup() {
 	ofIndexType indices[6] = { 0,1,2,2,3,0 };
 	quad.addIndices(indices, 6);
 
-	bool loaded = shader.load("shader.vert_texture", "shader.frag_texture");
+	bool loaded = shader.load("shader.vert_texture_fix_reverse", "shader.frag_texture_fix_reverse");
 
 	ofDisableArbTex();
 	img.load("parrot.png");
