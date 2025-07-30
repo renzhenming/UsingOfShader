@@ -8,6 +8,11 @@ void ofApp::setup() {
 	triangle.addVertex(glm::vec3(-1.0, -1.0, 0.0));
 	triangle.addVertex(glm::vec3(-1.0, 1.0, 0.0));
 	triangle.addVertex(glm::vec3(1.0, 1.0, 0.0));
+
+	triangle.addColor(ofFloatColor(1.0f, 0.0f, 0.0f, 1.0f));
+	triangle.addColor(ofFloatColor(0.0f, 1.0f, 0.0f, 1.0f));
+	triangle.addColor(ofFloatColor(0.0f, 0.0f, 1.0f, 1.0f));
+
 	bool loaded = shader.load("shader.vert", "shader.frag");
 }
 
