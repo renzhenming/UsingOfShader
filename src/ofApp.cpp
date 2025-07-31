@@ -16,9 +16,10 @@ void ofApp::setup() {
 	ofIndexType indices[6] = { 0,1,2,2,3,0 };
 	quad.addIndices(indices, 6);
 
-	bool loaded = shader.load("shader.vert_texture_scroll", "shader.frag_texture_scroll");
+	bool loaded = shader.load("shader.vert_brigtness", "shader.frag_brightness");
 
 	ofDisableArbTex();
+	ofDisableAlphaBlending();
 	img.load("parrot.png");
 	img.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 }
@@ -35,6 +36,7 @@ void ofApp::draw() {
 	float time = ofGetElapsedTimef();
 	cout<<"rzm:"<<"time:"<<time << endl;
 	shader.setUniform1f("time", time);
+	shader.setUniform1f("brightness", 0.5f);
 	quad.draw();
 	shader.end();
 }
