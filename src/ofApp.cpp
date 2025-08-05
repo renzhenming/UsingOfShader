@@ -16,7 +16,7 @@ void ofApp::setup() {
 	ofIndexType indices[6] = { 0,1,2,2,3,0 };
 	quad.addIndices(indices, 6);
 
-	bool loaded = shader.load("shader.vert_brigtness", "shader.frag_brightness");
+	bool loaded = shader.load("shader.vert_color", "shader.frag_color");
 
 	ofDisableArbTex();
 	ofDisableAlphaBlending();
@@ -35,8 +35,13 @@ void ofApp::draw() {
 	shader.setUniformTexture("parrotTex", img, 0);
 	float time = ofGetElapsedTimef();
 	cout<<"rzm:"<<"time:"<<time << endl;
-	shader.setUniform1f("time", time);
-	shader.setUniform1f("brightness", 0.5f);
+	//加一个蓝色
+	//shader.setUniform4f("add", glm::vec4(0.25, 0.25, 1.0, 1.0));
+	//加一个纯红色
+	//shader.setUniform4f("add", glm::vec4(1.0, 0, 0, 1.0));
+	//加一个灰色
+	shader.setUniform4f("add", glm::vec4(0.5, 0.5, 0.5, 1.0));
+	shader.setUniform4f("multiply", glm::vec4(1, 1, 1, 1));
 	quad.draw();
 	shader.end();
 }
