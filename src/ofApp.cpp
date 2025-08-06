@@ -1,28 +1,31 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
+
+void builMesh(ofMesh& mesh, float w, float h, glm::vec3 pos) {
+	float verts[] = {
+		pos.x - w,pos.y - h,pos.z,
+		pos.x - w,pos.y + h,pos.z,
+		pos.x + w,pos.y + h,pos.z,
+		pos.x + w,pos.y - h,pos.z
+	};
+	float uvs[] = { 0,0,0,1,1,1,1,0 };
+	for (int i = 0; i < 4;i++) {
+		int idx = i * 3;
+		int uvidx = i * 2;
+		mesh.addVertex(glm::vec3(verts[idx], verts[idx + 1], verts[idx + 2]));
+		mesh.addTexCoord(glm::vec2(uvs[uvidx], uvs[uvidx + 1]));
+	}
+	ofIndexType indices[6] = { 0,1,2,2,3,0 };
+	mesh.addIndices(indices,6);
+}
+
 void ofApp::setup()
 {
-	ofDisableAlphaBlending();
-
-	quad.addVertex(glm::vec3(-1, -1, 0));
-	quad.addVertex(glm::vec3(-1, 1, 0));
-	quad.addVertex(glm::vec3(1, 1, 0));
-	quad.addVertex(glm::vec3(1, -1, 0));
-
-	quad.addTexCoord(glm::vec2(0, 0));
-	quad.addTexCoord(glm::vec2(0, 1));
-	quad.addTexCoord(glm::vec2(1, 1));
-	quad.addTexCoord(glm::vec2(1, 0));
-
-	ofIndexType indices[6] = { 0,1,2,2,3,0 };
-	quad.addIndices(indices, 6);
-
-	shader.load("shader.vert_mix_texture", "shader.frag_mix_texture");
-
 	ofDisableArbTex();
-	parrotImg.load("parrot.png");
-	checkerImg.load("checker.jpg");
+	builMesh(mesh, 0.2, 0.4, glm::vec3(0.0, -0.3, 0.0));
+	alienImg.load("alien.png");
+	shader.load("shader.vert_alpha", "shader.frag_alpha");
 }
 
 
@@ -34,13 +37,9 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	shader.begin();
-	shader.setUniformTexture("parrotTex", parrotImg, 0);
-	shader.setUniformTexture("checkerboardTex", checkerImg, 1);
-
-	quad.draw();
+	shader.setUniformTexture("greenMan", alienImg, 0);
+	mesh.draw();
 	shader.end();
-
-
 }
 
 //--------------------------------------------------------------

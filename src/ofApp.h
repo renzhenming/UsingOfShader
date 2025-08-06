@@ -21,8 +21,7 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-	ofMesh quad;
+	ofMesh mesh;
 	ofShader shader;
-	ofImage parrotImg;
-	ofImage checkerImg;
+	ofImage alienImg;
 };
