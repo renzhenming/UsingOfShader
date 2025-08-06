@@ -1,12 +1,14 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup() {
+void ofApp::setup()
+{
+	ofDisableAlphaBlending();
 
-	quad.addVertex(glm::vec3(-1.0, -1.0, 0.0));
-	quad.addVertex(glm::vec3(-1.0, 1.0, 0.0));
-	quad.addVertex(glm::vec3(1.0, 1.0, 0.0));
-	quad.addVertex(glm::vec3(1.0, -1.0, 0.0));
+	quad.addVertex(glm::vec3(-1, -1, 0));
+	quad.addVertex(glm::vec3(-1, 1, 0));
+	quad.addVertex(glm::vec3(1, 1, 0));
+	quad.addVertex(glm::vec3(1, -1, 0));
 
 	quad.addTexCoord(glm::vec2(0, 0));
 	quad.addTexCoord(glm::vec2(0, 1));
@@ -16,13 +18,13 @@ void ofApp::setup() {
 	ofIndexType indices[6] = { 0,1,2,2,3,0 };
 	quad.addIndices(indices, 6);
 
-	bool loaded = shader.load("shader.vert_color", "shader.frag_color");
+	shader.load("shader.vert_mix_texture", "shader.frag_mix_texture");
 
 	ofDisableArbTex();
-	ofDisableAlphaBlending();
-	img.load("parrot.png");
-	img.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	parrotImg.load("parrot.png");
+	checkerImg.load("checker.jpg");
 }
+
 
 //--------------------------------------------------------------
 void ofApp::update() {
@@ -32,24 +34,18 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	shader.begin();
-	shader.setUniformTexture("parrotTex", img, 0);
-	float time = ofGetElapsedTimef();
-	cout<<"rzm:"<<"time:"<<time << endl;
-	//加一个蓝色
-	//shader.setUniform4f("add", glm::vec4(0.25, 0.25, 1.0, 1.0));
-	//加一个纯红色
-	//shader.setUniform4f("add", glm::vec4(1.0, 0, 0, 1.0));
-	//加一个灰色
-	shader.setUniform4f("add", glm::vec4(0.5, 0.5, 0.5, 1.0));
-	shader.setUniform4f("multiply", glm::vec4(1, 1, 1, 1));
+	shader.setUniformTexture("parrotTex", parrotImg, 0);
+	shader.setUniformTexture("checkerboardTex", checkerImg, 1);
+
 	quad.draw();
 	shader.end();
+
+
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-	glm::vec3 curPos = quad.getVertex(2);
-	quad.setVertex(2, curPos + glm::vec3(0, 20, 0));
+
 }
 
 //--------------------------------------------------------------
