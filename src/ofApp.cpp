@@ -23,9 +23,13 @@ void builMesh(ofMesh& mesh, float w, float h, glm::vec3 pos) {
 void ofApp::setup()
 {
 	ofDisableArbTex();
-	builMesh(mesh, 0.2, 0.4, glm::vec3(0.0, -0.3, 0.0));
+	ofEnableDepthTest();
+	builMesh(alienMesh, 0.15, 0.3, glm::vec3(0.0, -0.15, 0.0));
+	builMesh(backgroundMesh, 1.0, 1.0, glm::vec3(0.0, 0.0, 0.5));
+
 	alienImg.load("alien.png");
-	shader.load("shader.vert_alpha", "shader.frag_alpha");
+	backgroundImg.load("forest.png");
+	shader.load("shader.vert_alpha_test", "shader.frag_alpha_test");
 }
 
 
@@ -37,8 +41,13 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	shader.begin();
-	shader.setUniformTexture("greenMan", alienImg, 0);
-	mesh.draw();
+
+	shader.setUniformTexture("tex", alienImg, 0);
+	alienMesh.draw();
+
+	shader.setUniformTexture("tex", backgroundImg, 1);
+	backgroundMesh.draw();
+
 	shader.end();
 }
 

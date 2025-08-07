@@ -21,7 +21,9 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-	ofMesh mesh;
+	ofMesh alienMesh;
+	ofMesh backgroundMesh;
 	ofShader shader;
 	ofImage alienImg;
+	ofImage backgroundImg;
 };
