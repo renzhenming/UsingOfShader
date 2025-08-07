@@ -24,12 +24,16 @@ void ofApp::setup()
 {
 	ofDisableArbTex();
 	ofEnableDepthTest();
-	builMesh(alienMesh, 0.15, 0.3, glm::vec3(0.0, -0.15, 0.0));
+	builMesh(alienMesh, 0.1, 0.2, glm::vec3(0.0, -0.3, 0.0));
 	builMesh(backgroundMesh, 1.0, 1.0, glm::vec3(0.0, 0.0, 0.5));
+	builMesh(cloudMesh, 0.25, 0.15, glm::vec3(-0.55, 0.0, 0.0));
 
 	alienImg.load("alien.png");
 	backgroundImg.load("forest.png");
+	cloudImg.load("cloud.png");
+
 	shader.load("shader.vert_alpha_test", "shader.frag_alpha_test");
+	cloudShader.load("shader.vert_alpha_test", "shader.frag_alpha_test_cloud");
 }
 
 
@@ -41,14 +45,16 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	shader.begin();
-
 	shader.setUniformTexture("tex", alienImg, 0);
 	alienMesh.draw();
-
 	shader.setUniformTexture("tex", backgroundImg, 1);
 	backgroundMesh.draw();
-
 	shader.end();
+
+	cloudShader.begin();
+	cloudShader.setUniformTexture("tex", cloudImg, 0);
+	cloudMesh.draw();
+	cloudShader.end();
 }
 
 //--------------------------------------------------------------

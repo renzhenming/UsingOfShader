@@ -23,7 +23,12 @@ public:
 
 	ofMesh alienMesh;
 	ofMesh backgroundMesh;
+	ofMesh cloudMesh;
+
 	ofShader shader;
+	ofShader cloudShader;
+
 	ofImage alienImg;
 	ofImage backgroundImg;
+	ofImage cloudImg;
 };
