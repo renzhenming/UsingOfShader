@@ -24,6 +24,7 @@ public:
 	ofMesh alienMesh;
 	ofMesh backgroundMesh;
 	ofMesh cloudMesh;
+	ofMesh sunMesh;
 
 	ofShader shader;
 	ofShader cloudShader;
@@ -31,4 +32,5 @@ public:
 	ofImage alienImg;
 	ofImage backgroundImg;
 	ofImage cloudImg;
+	ofImage sunImg;
 };

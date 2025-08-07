@@ -23,14 +23,16 @@ void builMesh(ofMesh& mesh, float w, float h, glm::vec3 pos) {
 void ofApp::setup()
 {
 	ofDisableArbTex();
-	ofEnableDepthTest();
+
 	builMesh(alienMesh, 0.1, 0.2, glm::vec3(0.0, -0.3, 0.0));
 	builMesh(backgroundMesh, 1.0, 1.0, glm::vec3(0.0, 0.0, 0.5));
 	builMesh(cloudMesh, 0.25, 0.15, glm::vec3(-0.55, 0.0, 0.0));
+	builMesh(sunMesh, 1.0, 1.0, glm::vec3(0.0, 0.0, 0.4));
 
 	alienImg.load("alien.png");
 	backgroundImg.load("forest.png");
 	cloudImg.load("cloud.png");
+	sunImg.load("sun.png");
 
 	shader.load("shader.vert_alpha_test", "shader.frag_alpha_test");
 	cloudShader.load("shader.vert_alpha_test", "shader.frag_alpha_test_cloud");
@@ -44,6 +46,9 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+	ofDisableBlendMode();
+	ofEnableDepthTest();
+
 	shader.begin();
 	shader.setUniformTexture("tex", alienImg, 0);
 	alienMesh.draw();
@@ -51,9 +56,18 @@ void ofApp::draw() {
 	backgroundMesh.draw();
 	shader.end();
 
+	ofEnableBlendMode(ofBlendMode::OF_BLENDMODE_ALPHA);
+	ofDisableDepthTest();
+
 	cloudShader.begin();
 	cloudShader.setUniformTexture("tex", cloudImg, 0);
 	cloudMesh.draw();
+
+	ofEnableBlendMode(ofBlendMode::OF_BLENDMODE_ADD);
+
+	cloudShader.setUniformTexture("tex", sunImg, 0);
+	sunMesh.draw();
+
 	cloudShader.end();
 }
 
