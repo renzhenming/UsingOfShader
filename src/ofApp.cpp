@@ -17,25 +17,26 @@ void builMesh(ofMesh& mesh, float w, float h, glm::vec3 pos) {
 		mesh.addTexCoord(glm::vec2(uvs[uvidx], uvs[uvidx + 1]));
 	}
 	ofIndexType indices[6] = { 0,1,2,2,3,0 };
-	mesh.addIndices(indices,6);
+	mesh.addIndices(indices, 6);
 }
 
 void ofApp::setup()
 {
 	ofDisableArbTex();
 
-	builMesh(alienMesh, 0.1, 0.2, glm::vec3(0.0, -0.3, 0.0));
+	builMesh(alienMesh, 0.1, 0.2, glm::vec3(0.0, -0.4, 0.0));
 	builMesh(backgroundMesh, 1.0, 1.0, glm::vec3(0.0, 0.0, 0.5));
 	builMesh(cloudMesh, 0.25, 0.15, glm::vec3(-0.55, 0.0, 0.0));
 	builMesh(sunMesh, 1.0, 1.0, glm::vec3(0.0, 0.0, 0.4));
 
-	alienImg.load("alien.png");
+	alienImg.load("walk_sheet.png");
 	backgroundImg.load("forest.png");
 	cloudImg.load("cloud.png");
 	sunImg.load("sun.png");
 
 	shader.load("shader.vert_alpha_test", "shader.frag_alpha_test");
 	cloudShader.load("shader.vert_alpha_test", "shader.frag_alpha_test_cloud");
+	spriteShader.load("shader.vert_sprite", "shader.frag_alpha_test");
 }
 
 
@@ -46,12 +47,23 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+	static float frame = 0.0;
+	frame = (frame > 10) ? 0.0 : frame += 0.2;
+	glm::vec2 spriteSize = glm::vec2(0.28, 0.19);
+	glm::vec2 spriteFrame = glm::vec2((int)frame % 3, (int)frame / 3);
+	std::cout<<"spriteFrame"<<spriteFrame.x <<":"<<spriteFrame.y << std::endl;
+
 	ofDisableBlendMode();
 	ofEnableDepthTest();
 
-	shader.begin();
-	shader.setUniformTexture("tex", alienImg, 0);
+	spriteShader.begin();
+	spriteShader.setUniform2f("size", spriteSize);
+	spriteShader.setUniform2f("offset", spriteFrame);
+	spriteShader.setUniformTexture("tex", alienImg, 0);
 	alienMesh.draw();
+	spriteShader.end();
+
+	shader.begin();
 	shader.setUniformTexture("tex", backgroundImg, 1);
 	backgroundMesh.draw();
 	shader.end();

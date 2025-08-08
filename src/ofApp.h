@@ -28,6 +28,7 @@ public:
 
 	ofShader shader;
 	ofShader cloudShader;
+	ofShader spriteShader;
 
 	ofImage alienImg;
 	ofImage backgroundImg;
