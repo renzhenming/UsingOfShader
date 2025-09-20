@@ -36,13 +36,17 @@ void ofApp::setup()
 
 	shader.load("shader.vert_alpha_test", "shader.frag_alpha_test");
 	cloudShader.load("shader.vert_alpha_test", "shader.frag_alpha_test_cloud");
-	spriteShader.load("shader.vert_sprite", "shader.frag_alpha_test");
+	spriteShader.load("shader.vert_sprite_walking", "shader.frag_alpha_test");
 }
 
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+	if (walkRight) {
+		float speed = 0.4 * ofGetLastFrameTime();
+		charPos += glm::vec3(speed, 0, 0);
+		std::cout << "walk" << charPos.x << std::endl;
+	}
 }
 
 //--------------------------------------------------------------
@@ -51,7 +55,6 @@ void ofApp::draw() {
 	frame = (frame > 10) ? 0.0 : frame += 0.2;
 	glm::vec2 spriteSize = glm::vec2(0.28, 0.19);
 	glm::vec2 spriteFrame = glm::vec2((int)frame % 3, (int)frame / 3);
-	std::cout<<"spriteFrame"<<spriteFrame.x <<":"<<spriteFrame.y << std::endl;
 
 	ofDisableBlendMode();
 	ofEnableDepthTest();
@@ -60,6 +63,7 @@ void ofApp::draw() {
 	spriteShader.setUniform2f("size", spriteSize);
 	spriteShader.setUniform2f("offset", spriteFrame);
 	spriteShader.setUniformTexture("tex", alienImg, 0);
+	spriteShader.setUniform3f("translation", charPos);
 	alienMesh.draw();
 	spriteShader.end();
 
@@ -85,12 +89,16 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-
+	if (key == ofKey::OF_KEY_RIGHT) {
+		walkRight = true;
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {
-
+	if (key == ofKey::OF_KEY_RIGHT) {
+		walkRight = false;
+	}
 }
 
 //--------------------------------------------------------------

@@ -34,4 +34,7 @@ public:
 	ofImage backgroundImg;
 	ofImage cloudImg;
 	ofImage sunImg;
+
+	bool walkRight;
+	glm::vec3 charPos;
 };
