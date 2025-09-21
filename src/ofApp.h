@@ -27,6 +27,7 @@ public:
 	ofMesh sunMesh;
 
 	ofShader shader;
+	ofShader sunShader;
 	ofShader cloudShader;
 	ofShader spriteShader;
 
